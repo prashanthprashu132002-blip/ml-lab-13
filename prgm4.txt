@@ -1,0 +1,39 @@
+import pandas as pd
+
+def find_s_algorithm(training_data):
+
+    hypothesis = None
+
+    for index, row in training_data.iterrows():
+
+        if row['PlayTennis'] == 'Yes':
+
+            instance = row[:-1].values
+
+            if hypothesis is None:
+                hypothesis = instance.copy()
+
+            else:
+                for i in range(len(hypothesis)):
+                    if hypothesis[i] != instance[i]:
+                        hypothesis[i] = '?'
+
+    return hypothesis
+
+# Load Dataset
+df = pd.read_csv('playtennis.csv')
+
+df.columns = [
+    'Outlook',
+    'Temperature',
+    'Humidity',
+    'Wind',
+    'PlayTennis'
+]
+
+# Run Algorithm
+final_hypothesis = find_s_algorithm(df)
+
+print("Final Hypothesis:", final_hypothesis)
+
+Pgrm 4

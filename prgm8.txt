@@ -1,0 +1,62 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn import tree
+
+# Load Dataset
+data = load_breast_cancer()
+
+X = data.data
+y = data.target
+
+# Split Data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# Train Model
+clf = DecisionTreeClassifier(random_state=42)
+clf.fit(X_train, y_train)
+
+# Prediction
+y_pred = clf.predict(X_test)
+
+# Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Accuracy: {accuracy * 100:.2f}%")
+
+# New Sample
+new_sample = np.array([[
+    14.3,18.1,92.8,600.1,0.097,
+    0.084,0.083,0.080,0.077,0.064,
+    0.087,0.087,0.077,0.089,0.085,
+    0.085,0.080,0.095,0.087,0.090,
+    0.091,0.080,0.076,0.080,0.092,
+    0.079,0.089,0.090,0.091,0.089
+]])
+
+prediction = clf.predict(new_sample)
+
+print(
+    "Predicted Class:",
+    "Benign" if prediction[0] == 1 else "Malignant"
+)
+
+# Plot Tree
+plt.figure(figsize=(12, 8))
+
+tree.plot_tree(
+    clf,
+    filled=True,
+    feature_names=data.feature_names,
+    class_names=data.target_names
+)
+
+plt.show()
+
+Pgrm 8

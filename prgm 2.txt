@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load Dataset
+data = pd.read_csv('fetch_california_housing.csv')
+
+# Select Numerical Features
+numeric = data.select_dtypes(include=[np.number])
+
+# Correlation Matrix
+correlation_matrix = numeric.corr()
+
+print("Correlation Matrix:")
+print(correlation_matrix)
+
+# Heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(
+    correlation_matrix,
+    annot=True,
+    cmap='coolwarm',
+    fmt='.2f',
+    linewidths=0.5
+)
+
+plt.title('Correlation Matrix Heatmap')
+plt.show()
+
+# Pair Plot
+sns.pairplot(numeric)
+plt.suptitle('Pair Plot of Numerical Features', y=1.02)
+plt.show()
+
+Prgm2

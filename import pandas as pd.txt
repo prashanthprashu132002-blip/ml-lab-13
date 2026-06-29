@@ -1,0 +1,44 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load Dataset
+data = pd.read_csv('fetch_california_housing.csv')
+
+# Select Numerical Features
+numeric = data.select_dtypes(include=[np.number])
+
+# Histograms
+numeric.hist(bins=30, figsize=(15, 10))
+plt.suptitle('Histograms of Numerical Features')
+plt.show()
+
+# Box Plots
+plt.figure(figsize=(15, 10))
+
+for i, column in enumerate(numeric.columns):
+    plt.subplot(3, 3, i + 1)
+    sns.boxplot(y=numeric[column])
+    plt.title(column)
+
+plt.tight_layout()
+plt.show()
+
+# Outlier Detection using IQR
+for column in numeric.columns:
+    Q1 = numeric[column].quantile(0.25)
+    Q3 = numeric[column].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    outliers = numeric[
+        (numeric[column] < lower_bound) |
+        (numeric[column] > upper_bound)
+    ]
+
+    print(f"Outliers in {column}: {len(outliers)}") 
+
+Pgrm 1
